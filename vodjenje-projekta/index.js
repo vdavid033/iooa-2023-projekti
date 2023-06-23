@@ -6,9 +6,9 @@ var mysql = require('mysql');
 
 const db = mysql.createConnection({
     host: 'student.veleri.hr',
-    user: 'igrbac', 
+    user: 'igrbac',
     password: '11',
-    database: 'igrbac', 
+    database: 'igrbac',
     multipleStatements: true
 });
 
@@ -24,6 +24,19 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
 
+
+
+app.get('/getProjekti', function (request, response) {
+    db.query("SELECT * FROM PROJEKTI", function (err, result) {
+        if (err) {
+            console.error(err);
+            response.send({ message: "Greška pri dohvaćanju projekata" });
+        } else {
+            response.send(result);
+        }
+    }
+    );
+});
 
 app.listen(3001, () => {
     console.log("Pokretanje backenda");

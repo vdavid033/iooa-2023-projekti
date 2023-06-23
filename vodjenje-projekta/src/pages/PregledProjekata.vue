@@ -2,18 +2,13 @@
   <q-page padding>
     <div class="container">
       <h1 class="title">Pregled projekata</h1>
-      <q-table
-        :rows="projekti"
-        :columns="columns"
-        row-key="id"
-        class="table"
-      >
+      <q-table :rows="projekti" :columns="columns" row-key="id" class="table">
         <template v-slot:body="props">
           <q-tr :props="props">
-            <q-td>{{ props.row.naziv }}</q-td>
-            <q-td>{{ props.row.datumPocetka }}</q-td>
-            <q-td>{{ props.row.brojClanovaTima }}</q-td>
-            <q-td>{{ props.row.aktivan ? 'Da' : 'Ne' }}</q-td>
+            <q-td>{{ props.row.NAZIV_PROJEKTA }}</q-td>
+            <q-td>{{ new Date(props.row.DATUM_POCETKA).toLocaleDateString('hr-HR') }}</q-td>
+            <q-td>{{ props.row.BROJ_CLANOVA_TIMA }}</q-td>
+            <q-td>{{ props.row.AKTIVAN }}</q-td>
           </q-tr>
         </template>
       </q-table>
@@ -25,6 +20,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'PregledProjekata',
   data() {
@@ -39,9 +36,20 @@ export default {
     }
   },
   methods: {
+    async getProjekti() {
+      try {
+        const response = await axios.get('http://localhost:3001/getProjekti');
+        this.projekti = response.data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
     addProject() {
       // Logika za unos novog projekta
     }
+  },
+  mounted() {
+    this.getProjekti();
   }
 }
 </script>
@@ -63,6 +71,7 @@ export default {
   margin-top: 20px;
   margin-bottom: 20px;
 }
+
 .button-container {
   display: flex;
   justify-content: flex-end;
