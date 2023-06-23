@@ -1,6 +1,6 @@
 <template>
-  <q-page padding>
-    <div class="container">
+  <q-page padding class="bg-image">
+    <div class="container ">
       <h1 class="title">Pregled projekata</h1>
       <q-table :rows="projekti" :columns="columns" row-key="id" class="table">
         <template v-slot:body="props">
@@ -55,6 +55,11 @@ export default {
 </script>
 
 <style scoped>
+.bg-image {
+    background-image: url(../assets/POZADINSKA-SLIKA.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
 .container {
   display: flex;
   flex-direction: column;
@@ -64,6 +69,7 @@ export default {
 .title {
   font-size: 32px;
   margin-bottom: 20px;
+  font-weight: bold;
 }
 
 .table {
