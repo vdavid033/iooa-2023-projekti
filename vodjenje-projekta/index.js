@@ -38,6 +38,6 @@ app.get('/getProjekti', function (request, response) {
     );
 });
 
-app.listen(3001, () => {
+app.listen(9000, () => {
     console.log("Pokretanje backenda");
 });

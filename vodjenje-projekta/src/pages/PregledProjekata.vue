@@ -38,7 +38,7 @@ export default {
   methods: {
     async getProjekti() {
       try {
-        const response = await axios.get('http://localhost:3001/getProjekti');
+        const response = await axios.get('http://localhost:9000/getProjekti');
         this.projekti = response.data;
       } catch (error) {
         console.error(error);
