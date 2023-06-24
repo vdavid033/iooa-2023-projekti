@@ -1,5 +1,5 @@
 <template>
-  <q-page padding class="bg-image">
+  <q-page  class="bg-image">
     <div class="container ">
       <h1 class="title">Pregled projekata</h1>
       <q-table :rows="projekti" :columns="columns" row-key="id" class="table">

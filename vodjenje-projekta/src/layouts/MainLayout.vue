@@ -53,6 +53,7 @@ const linksList = [
   {
     title: 'Projekti',
     icon: 'code',
+    link: 'http://localhost:8080/#/pregled-projekata'
   },
   {
     title: 'Aktivnosti',
