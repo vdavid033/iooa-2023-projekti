@@ -6,9 +6,9 @@ var mysql = require('mysql');
 
 const db = mysql.createConnection({
     host: 'student.veleri.hr',
-    user: 'igrbac',
+    user: 'iooa-projekti',
     password: '11',
-    database: 'igrbac',
+    database: 'iooa-projekti',
     multipleStatements: true
 });
 
