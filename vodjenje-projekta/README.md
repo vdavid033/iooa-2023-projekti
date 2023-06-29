@@ -2,6 +2,8 @@
 
 Aplikacija za vodjenje projekata
 
+cd vodjenje-projekta
+
 ## Install the dependencies
 ```bash
 yarn
@@ -39,3 +41,9 @@ quasar build
 
 ### Customize the configuration
 See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js).
+
+
+### Pokretanje backenda
+```bash
+node index.js
+```

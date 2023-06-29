@@ -119,7 +119,7 @@ export default {
   width: 80%;
   margin-top: 20px;
   margin-bottom: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .button-container {
@@ -148,10 +148,10 @@ export default {
   flex-direction: column;
   align-items: flex-start;
   background-color: white;
-  padding: 10px;
+  padding: 20px;
   margin-bottom: 20px;
   border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .filter-box {
