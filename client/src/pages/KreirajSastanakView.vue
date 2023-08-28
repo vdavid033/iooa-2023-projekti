@@ -1,15 +1,16 @@
 <template>
   <div class="kreiraj-sastanak">
-    <h2>{{ viewingSastanak ? 'SASTANAK' : 'NOVI SASTANAK' }}</h2>
+    <h2>{{ viewingSastanak ? "SASTANAK" : "Novi sastanak" }}</h2>
+    <h4>Projekt: {{ naziv_projekta }}</h4>
     <form @submit.prevent="submitForm">
       <div class="form-group">
-        <label for="naziv" class="label">Naziv sastanka:</label>
+        <label for="naziv_sastanka" class="label">Naziv sastanka:</label>
         <input
           type="text"
-          v-model="naziv"
+          v-model="naziv_sastanka"
           required
           class="input-field"
-          :disabled="viewingSastanak"
+          :disabled="viewingSastanak && prijavljenKorisnik.korisnik_id !== voditelj_id"
         />
       </div>
       <div class="form-group">
@@ -19,26 +20,48 @@
           v-model="datum_sastanka"
           required
           class="input-field"
-          :disabled="viewingSastanak"
+          :disabled="viewingSastanak && prijavljenKorisnik.korisnik_id !== voditelj_id"
         />
       </div>
       <div class="form-group">
-        <label for="detalji" class="label">Detalji:</label>
+        <label for="vrijeme_sastanka" class="label">Vrijeme sastanka:</label>
         <input
-          type="text"
-          v-model="detalji"
+          type="time"
+          v-model="vrijeme_sastanka"
           required
           class="input-field"
-          :disabled="viewingSastanak"
+          :disabled="viewingSastanak && prijavljenKorisnik.korisnik_id !== voditelj_id"
         />
       </div>
-      <q-btn
-        v-if="!viewingSastanak && !sastanakId"
+      <div class="form-group">
+        <label for="detalji_sastanka" class="label">Detalji:</label>
+        <input
+          type="text"
+          v-model="detalji_sastanka"
+          required
+          class="input-field"
+          :disabled="viewingSastanak && prijavljenKorisnik.korisnik_id !== voditelj_id"
+        />
+      </div>
+      <!-- <q-btn
+        v-if="!viewingSastanak && !sastanak_id"
         type="submit"
         class="btn btn-kreiraj-spremi"
       >
         Kreiraj
-      </q-btn>
+      </q-btn> -->
+      <q-btn
+          v-if="
+            (viewingSastanak &&
+              voditelj_id &&
+              voditelj_id === prijavljenKorisnik.korisnik_id) ||
+            !viewingSastanak
+          "
+          type="submit"
+          class="btn btn-kreiraj-spremi"
+        >
+          {{ viewingSastanak ? "Spremi promjene" : "Kreiraj" }}
+        </q-btn>
     </form>
   </div>
 </template>
@@ -47,139 +70,115 @@
 export default {
   data() {
     return {
-      prijavljenKorisnik: JSON.parse(localStorage.getItem('korisnik')),
-      naziv: '',
-      datum_sastanka: '',
-      voditelj: '',
-      noviClan: null,
-      clanovi: [],
-      korisnici: [],
+      prijavljenKorisnik: JSON.parse(localStorage.getItem("korisnik")),
       viewingSastanak: false,
-      sastanakId: null,
-      existingProject: {
-        naziv_projekta: '',
-        datum_sastanka: '',
-        voditelj_id: '',
-        clanovi: []
-      }
-    }
-  },
-  computed: {
-    dostupniClanovi() {
-      return this.korisnici.filter(
-        (korisnik) => !this.clanovi.find((clan) => clan.korisnik_id === korisnik.korisnik_id)
-      )
-    }
+      aktivnost : "",
+      projekt: [],
+      sastanak_id: "",
+      projekt_id: "",
+      datum_sastanka: "",
+      vrijeme_sastanka: "",
+      detalji_sastanka: "",
+      naziv_sastanka: "",
+      naziv_projekta: "",
+      voditelj_id: null,
+      postojeciSastanak: {
+        sastanak_id: "",
+        projekt_id: "",
+        datum_sastanka: "",
+        vrijeme_sastanka: "",
+        detalji_sastanka: "",
+        naziv_sastanka: "",
+        naziv_projekta: "",
+        voditelj_id: null,
+      },
+    };
   },
   created() {
-    if (this.$route.params.projekt_id) {
-      this.viewingSastanak = true
-      this.sastanakId = this.$route.params.projekt_id
-      this.fetchProjectData(this.sastanakId)
+    if (this.$route.params.sastanak_id) {
+      this.viewingSastanak = true;
+      this.sastanak_id = this.$route.params.sastanak_id;
+      this.dohvatiDetaljeSastanka(this.sastanak_id);
     }
-    this.fetchUsers()
+    if (this.$route.params.projekt_id) {
+      this.projekt_id = this.$route.params.projekt_id;
+      this.$axios
+        .get(`http://localhost:3000/api/projekti/${this.projekt_id}`)
+        .then((response) => {
+          this.naziv_projekta = response.data.naziv_projekta;
+          this.projekt = response.data;
+        })
+        .catch((error) => {
+          console.error("Greška pri dohvaćanju postojećeg projekta:", error);
+        });
+    }
   },
   methods: {
-    // #17 axios za prikaz podataka o projektima
-    fetchProjectData(sastanakId) {
+    dohvatiDetaljeSastanka(sastanak_id) {
       this.$axios
-        .get(`http://localhost:3000/api/projekti/${sastanakId}`)
+        .get(`http://localhost:3000/api/sastanci/${sastanak_id}`)
         .then((response) => {
-          this.existingProject = response.data
-          this.naziv = this.existingProject.naziv_projekta
+          this.postojeciSastanak = response.data;
+          this.naziv_sastanka = this.postojeciSastanak.naziv_sastanka;
           this.datum_sastanka = this.convertISODateToFormattedDate(
-            this.existingProject.datum_sastanka
-          )
-          this.voditelj = this.existingProject.voditelj_id
-          this.clanovi = this.existingProject.clanovi
+            this.postojeciSastanak.datum_sastanka
+          );
+          this.vrijeme_sastanka = this.postojeciSastanak.vrijeme_sastanka;
+          this.detalji_sastanka = this.postojeciSastanak.detalji_sastanka;
+          this.naziv_projekta = this.postojeciSastanak.naziv_projekta;
+          this.voditelj_id = this.postojeciSastanak.voditelj_id;
+          this.projekt_id = this.postojeciSastanak.projekt_id;
         })
         .catch((error) => {
-          console.error('Greška pri dohvaćanju postojećeg projekta:', error)
-        })
-    },
-    fetchUsers() {
-      this.$axios
-        .get('http://localhost:3000/api/korisnici')
-        .then((response) => {
-          this.korisnici = response.data
-        })
-        .catch((error) => {
-          console.error('Greška pri dohvaćanju korisnika:', error)
-        })
+          console.error("Greška pri dohvaćanju postojećeg projekta:", error);
+        });
     },
     convertISODateToFormattedDate(isoDate) {
-      const date = new Date(isoDate)
-      const year = date.getFullYear()
-      const month = String(date.getMonth() + 1).padStart(2, '0')
-      const day = String(date.getDate()).padStart(2, '0')
-      return `${year}-${month}-${day}`
+      const date = new Date(isoDate);
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
     },
     submitForm() {
       if (this.viewingSastanak) {
+        this.aktivnost = "ažuriran";
         this.$axios
-          .put(`http://localhost:3000/api/projekti/${this.sastanakId}`, {
-            naziv_projekta: this.naziv,
-            datum_sastanka: this.convertISODateToFormattedDate(this.datum_sastanka),
-            voditelj_id: this.voditelj,
-            clanovi: this.clanovi.map((clan) => clan.korisnik_id)
-          })
-          .then(() => {
-            this.$router.push('/projekti')
+          .put(`http://localhost:3000/api/sastanci/${this.sastanak_id}`, {
+            naziv_sastanka: this.naziv_sastanka,
+            datum_sastanka: this.convertISODateToFormattedDate(
+              this.datum_sastanka
+            ),
+            vrijeme_sastanka: this.vrijeme_sastanka,
+            detalji_sastanka: this.detalji_sastanka,
+            projekt_id: this.projekt_id
           })
           .catch((error) => {
-            console.error('Greška pri ažuriranju projekta:', error)
-            alert('Greška pri ažuriranju projekta. Molimo pokušajte ponovno.')
-          })
+            console.error("Greška pri ažuriranju sastanka:", error);
+            alert("Greška pri ažuriranju sastanka. Molimo pokušajte ponovno.");
+          });
       } else {
+        this.aktivnost = "kreiran";
         this.$axios
-          .post('http://localhost:3000/api/projekti', {
-            naziv_projekta: this.naziv,
-            datum_sastanka: this.convertISODateToFormattedDate(this.datum_sastanka),
-            voditelj_id: this.voditelj
-          })
-          .then(() => {
-            alert('Projekt kreiran')
-            this.$router.push('/projekti')
+          .post("http://localhost:3000/api/sastanci", {
+            naziv_sastanka: this.naziv_sastanka,
+            datum_sastanka: this.convertISODateToFormattedDate(
+              this.datum_sastanka
+            ),
+            vrijeme_sastanka: this.vrijeme_sastanka,
+            projekt_id: this.projekt_id,
+            detalji_sastanka: this.detalji_sastanka,
           })
           .catch((error) => {
-            console.error('Greška pri kreiranju projekta:', error)
-            alert('Greška pri kreiranju projekta. Molimo pokušajte ponovno.')
-          })
+            console.error("Greška pri kreiranju sastanka:", error);
+            alert("Greška pri kreiranju sastanka. Molimo pokušajte ponovno.");
+          });
       }
+      alert(`Sastanak uspješno ` + this.aktivnost);
+      this.$router.push(`/projekti/${this.projekt_id}`);
     },
-    dodajClana() {
-      if (this.noviClan) {
-        const clan = this.korisnici.find((korisnik) => korisnik.korisnik_id === this.noviClan)
-        this.$axios
-          .post(`http://localhost:3000/api/projekti/${this.sastanakId}/clanovi`, {
-            clanId: clan.korisnik_id
-          })
-          .then(() => {
-            // Dodajte novog člana izravno u polje clanovi
-            this.clanovi.push(clan)
-            alert(clan.ime + ' ' + clan.prezime + ' uspjesno dodan u projekt ' + this.naziv)
-            this.noviClan = null
-          })
-          .catch((error) => {
-            console.error('Greška pri dodavanju člana:', error)
-          })
-      }
-    },
-
-    ukloniClana(korisnikId) {
-      this.$axios
-        .delete(`http://localhost:3000/api/projekti/${this.sastanakId}/clanovi/${korisnikId}`)
-        .then(() => {
-          // Uklonite člana iz polja clanovi
-          this.clanovi = this.clanovi.filter((clan) => clan.korisnik_id !== korisnikId)
-          alert('Korisnik uspjesno uklonjen iz projekta')
-        })
-        .catch((error) => {
-          console.error('Greška pri uklanjanju člana:', error)
-        })
-    }
-  }
-}
+  },
+};
 </script>
 
 <style scoped>
@@ -215,10 +214,7 @@ export default {
   border: 3px solid black;
   border-radius: 20px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  transition:
-    background-color 0.3s,
-    color 0.3s,
-    transform 0.3s;
+  transition: background-color 0.3s, color 0.3s, transform 0.3s;
 }
 
 .clanovi-okvir {

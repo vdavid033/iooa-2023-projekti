@@ -4,9 +4,9 @@
         <img src="../assets/cog.png" />
         <p>Projekti</p>
     </router-link>
-    <router-link to="/projekti" class="side-menu-container">
+    <router-link to="/sastanci" class="side-menu-container">
         <img src="../assets/cog.png" />
-        <p class="menu-item">Izvješća</p>
+        <p class="menu-item">Sastanci</p>
     </router-link>
   </div>
 </template>
@@ -28,7 +28,9 @@ export default {
   border-right: 3px solid black;
   position: absolute;
   margin-top: -25px;
-  height: calc(100vh - 61px);
+  min-height: calc(100vh - 61px);
+  border-bottom: 3px solid black;
+  height: 175vh;
 }
 
 .side-menu-container {

@@ -89,7 +89,19 @@ const router = createRouter({
       }
     },
     {
-      path: '/sastanci/novi',
+      path: '/sastanci',
+      name: 'sastanci',
+      component: () => import('../pages/UpravljanjeSastancimaView.vue'),
+      beforeEnter: (to, from, next) => {
+        if (localStorage.getItem('prijavljen') === 'true') {
+          next(); // Nastavi normalno ako je korisnik prijavljen
+        } else {
+          next('/'); // Preusmjeri na stranicu za prijavu ako korisnik nije prijavljen
+        }
+      }
+    },
+    {
+      path: '/sastanci/novi/:projekt_id',
       name: 'kreiraj-sastanak',
       component: () => import('../pages/KreirajSastanakView.vue'),
       beforeEnter: (to, from, next) => {
