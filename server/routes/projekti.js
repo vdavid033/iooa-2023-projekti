@@ -173,4 +173,35 @@ router.get('/:korisnik_id/projekti', (req, res) => {
     });
 });
 
+// Endpoint za završavanje postojećeg projekta prema ID-u
+router.put("/zavrsi/:id", (req, res) => {
+    const id = req.params.id;
+    const { datum_zavrsetka } = req.body;
+
+    // Provjeri jesu li svi potrebni podaci dostupni u zahtjevu
+    if (!datum_zavrsetka) {
+        return res.status(400).json({ error: "Doslo je do greske." });
+    }
+
+    // Izvrši upit za ažuriranje projekta u bazi podataka
+    const sql =
+        "UPDATE projekti SET datum_zavrsetka = ? WHERE projekt_id = ?";
+    db.query(
+        sql,
+        [datum_zavrsetka, id],
+        (err, result) => {
+            if (err) {
+                console.error("Greška prilikom završavanja projekta:", err.message);
+                res.status(500).json({ error: "Greška prilikom završavanja projekta" });
+            } else {
+                if (result.affectedRows === 0) {
+                    res.status(404).json({ error: "Projekt nije pronađen" });
+                } else {
+                    res.json({ message: "Projekt je uspješno završen." });
+                }
+            }
+        }
+    );
+});
+
 module.exports = router;
