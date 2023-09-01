@@ -162,6 +162,12 @@ export default {
         //postavljanje trenutnog datuma
         const currentDate = new Date();
         this.datum_sastanka = currentDate.toISOString().split("T")[0];
+
+        //postavljanje trenutnog vremena
+        const hours = String(currentDate.getHours()).padStart(2, "0");
+        const minutes = String(currentDate.getMinutes()).padStart(2, "0");
+        this.vrijeme_sastanka = `${hours}:${minutes}`;
+        
         this.$axios
           .post("http://localhost:3000/api/sastanci", {
             naziv_sastanka: this.naziv_sastanka,
