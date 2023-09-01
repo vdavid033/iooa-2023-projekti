@@ -13,7 +13,7 @@
           :disabled="viewingSastanak && prijavljenKorisnik.korisnik_id !== voditelj_id"
         />
       </div>
-      <div class="form-group">
+      <div class="form-group" v-if="viewingSastanak">
         <label for="datum_sastanka" class="label">Datum sastanka:</label>
         <input
           type="text"
@@ -167,7 +167,7 @@ export default {
         const hours = String(currentDate.getHours()).padStart(2, "0");
         const minutes = String(currentDate.getMinutes()).padStart(2, "0");
         this.vrijeme_sastanka = `${hours}:${minutes}`;
-        
+
         this.$axios
           .post("http://localhost:3000/api/sastanci", {
             naziv_sastanka: this.naziv_sastanka,
