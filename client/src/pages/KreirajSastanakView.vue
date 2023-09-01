@@ -30,7 +30,7 @@
           v-model="vrijeme_sastanka"
           required
           class="input-field"
-          :disabled="viewingSastanak && prijavljenKorisnik.korisnik_id !== voditelj_id"
+          disabled
         />
       </div>
       <div class="form-group">
