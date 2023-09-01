@@ -159,6 +159,9 @@ export default {
           });
       } else {
         this.aktivnost = "kreiran";
+        //postavljanje trenutnog datuma
+        const currentDate = new Date();
+        this.datum_sastanka = currentDate.toISOString().split("T")[0];
         this.$axios
           .post("http://localhost:3000/api/sastanci", {
             naziv_sastanka: this.naziv_sastanka,
