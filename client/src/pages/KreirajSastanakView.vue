@@ -23,7 +23,7 @@
           disabled
         />
       </div>
-      <div class="form-group">
+      <div class="form-group" v-if="viewingSastanak">
         <label for="vrijeme_sastanka" class="label">Vrijeme sastanka:</label>
         <input
           type="time"
