@@ -16,11 +16,11 @@
       <div class="form-group">
         <label for="datum_sastanka" class="label">Datum sastanka:</label>
         <input
-          type="date"
-          v-model="datum_sastanka"
+          type="text"
+          v-model="currentDate"
           required
           class="input-field"
-          :disabled="viewingSastanak && prijavljenKorisnik.korisnik_id !== voditelj_id"
+          disabled
         />
       </div>
       <div class="form-group">
