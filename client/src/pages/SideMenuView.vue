@@ -5,7 +5,7 @@
         <p>Projekti</p>
     </router-link>
     <router-link to="/sastanci" class="side-menu-container">
-        <img src="../assets/cog.png" />
+        <img src="../assets/calendar-add.svg" />
         <p class="menu-item">Sastanci</p>
     </router-link>
   </div>
