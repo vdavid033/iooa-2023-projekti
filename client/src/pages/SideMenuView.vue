@@ -1,7 +1,7 @@
 <template>
   <div class="side-menu">
     <router-link to="/projekti" class="side-menu-container">
-        <img src="../assets/cog.png" />
+        <img src="../assets/tasks-app.svg" />
         <p>Projekti</p>
     </router-link>
     <router-link to="/sastanci" class="side-menu-container">
