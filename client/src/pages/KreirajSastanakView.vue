@@ -15,18 +15,17 @@
           "
         />
       </div>
-      
-      <div class="form-group" v-if="viewingSastanak">
+      <div class="form-group">
         <label for="datum_sastanka" class="label">Datum sastanka:</label>
         <input
-          type="text"
+          type="date"
           v-model="datum_sastanka"
           required
           class="input-field"
           disabled
         />
       </div>
-      <div class="form-group" v-if="viewingSastanak">
+      <div class="form-group">
         <label for="vrijeme_sastanka" class="label">Vrijeme sastanka:</label>
         <input
           type="time"
@@ -36,7 +35,6 @@
           disabled
         />
       </div>
-      
       <div class="form-group">
         <label for="detalji_sastanka" class="label">Detalji:</label>
         <input
@@ -49,13 +47,6 @@
           "
         />
       </div>
-      <!-- <q-btn
-        v-if="!viewingSastanak && !sastanak_id"
-        type="submit"
-        class="btn btn-kreiraj-spremi"
-      >
-        Kreiraj
-      </q-btn> -->
       <q-btn
         v-if="
           (viewingSastanak &&
@@ -118,6 +109,15 @@ export default {
           console.error("Greška pri dohvaćanju postojećeg projekta:", error);
         });
     }
+
+    // Postavljanje trenutnog datuma i vremena pri kreiranju novog sastanka
+    if (!this.viewingSastanak) {
+      const currentDate = new Date();
+      const hours = String(currentDate.getHours()).padStart(2, "0");
+      const minutes = String(currentDate.getMinutes()).padStart(2, "0");
+      this.datum_sastanka = currentDate.toISOString().split("T")[0];
+      this.vrijeme_sastanka = `${hours}:${minutes}`;
+    }
   },
   methods: {
     dohvatiDetaljeSastanka(sastanak_id) {
@@ -165,15 +165,9 @@ export default {
           });
       } else {
         this.aktivnost = "kreiran";
-       //postavljanje trenutnog datuma
-        const currentDate = new Date();
-        this.datum_sastanka = currentDate.toISOString().split("T")[0];
 
-       //postavljanje trenutnog vremena
-        const hours = String(currentDate.getHours()).padStart(2, "0");
-        const minutes = String(currentDate.getMinutes()).padStart(2, "0");
-        this.vrijeme_sastanka = `${hours}:${minutes}`;
-        
+        // Trenutni datum i vrijeme su već postavljeni pri kreiranju novog sastanka
+
         this.$axios
           .post("http://localhost:3000/api/sastanci", {
             naziv_sastanka: this.naziv_sastanka,
