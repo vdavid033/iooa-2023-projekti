@@ -10,14 +10,17 @@
           v-model="naziv_sastanka"
           required
           class="input-field"
-          :disabled="viewingSastanak && prijavljenKorisnik.korisnik_id !== voditelj_id"
+          :disabled="
+            viewingSastanak && prijavljenKorisnik.korisnik_id !== voditelj_id
+          "
         />
       </div>
+      
       <div class="form-group" v-if="viewingSastanak">
         <label for="datum_sastanka" class="label">Datum sastanka:</label>
         <input
           type="text"
-          v-model="currentDate"
+          v-model="datum_sastanka"
           required
           class="input-field"
           disabled
@@ -33,6 +36,7 @@
           disabled
         />
       </div>
+      
       <div class="form-group">
         <label for="detalji_sastanka" class="label">Detalji:</label>
         <input
@@ -40,7 +44,9 @@
           v-model="detalji_sastanka"
           required
           class="input-field"
-          :disabled="viewingSastanak && prijavljenKorisnik.korisnik_id !== voditelj_id"
+          :disabled="
+            viewingSastanak && prijavljenKorisnik.korisnik_id !== voditelj_id
+          "
         />
       </div>
       <!-- <q-btn
@@ -51,17 +57,17 @@
         Kreiraj
       </q-btn> -->
       <q-btn
-          v-if="
-            (viewingSastanak &&
-              voditelj_id &&
-              voditelj_id === prijavljenKorisnik.korisnik_id) ||
-            !viewingSastanak
-          "
-          type="submit"
-          class="btn btn-kreiraj-spremi"
-        >
-          {{ viewingSastanak ? "Spremi promjene" : "Kreiraj" }}
-        </q-btn>
+        v-if="
+          (viewingSastanak &&
+            voditelj_id &&
+            voditelj_id === prijavljenKorisnik.korisnik_id) ||
+          !viewingSastanak
+        "
+        type="submit"
+        class="btn btn-kreiraj-spremi"
+      >
+        {{ viewingSastanak ? "Spremi promjene" : "Kreiraj" }}
+      </q-btn>
     </form>
   </div>
 </template>
@@ -72,7 +78,7 @@ export default {
     return {
       prijavljenKorisnik: JSON.parse(localStorage.getItem("korisnik")),
       viewingSastanak: false,
-      aktivnost : "",
+      aktivnost: "",
       projekt: [],
       sastanak_id: "",
       projekt_id: "",
@@ -151,7 +157,7 @@ export default {
             ),
             vrijeme_sastanka: this.vrijeme_sastanka,
             detalji_sastanka: this.detalji_sastanka,
-            projekt_id: this.projekt_id
+            projekt_id: this.projekt_id,
           })
           .catch((error) => {
             console.error("Greška pri ažuriranju sastanka:", error);
@@ -159,15 +165,15 @@ export default {
           });
       } else {
         this.aktivnost = "kreiran";
-        //postavljanje trenutnog datuma
+       //postavljanje trenutnog datuma
         const currentDate = new Date();
         this.datum_sastanka = currentDate.toISOString().split("T")[0];
 
-        //postavljanje trenutnog vremena
+       //postavljanje trenutnog vremena
         const hours = String(currentDate.getHours()).padStart(2, "0");
         const minutes = String(currentDate.getMinutes()).padStart(2, "0");
         this.vrijeme_sastanka = `${hours}:${minutes}`;
-
+        
         this.$axios
           .post("http://localhost:3000/api/sastanci", {
             naziv_sastanka: this.naziv_sastanka,
