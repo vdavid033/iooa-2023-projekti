@@ -43,26 +43,21 @@
         />
       </div>
       <div class="form-group">
-        <label for="voditelj" class="label">Voditelj tima:</label>
-        <select
-          v-model="voditelj"
-          class="input-field"
-          :disabled="
-            (editingProject && datum_zavrsetka !== false) ||
-            (editingProject &&
-              voditelj &&
-              voditelj !== prijavljenKorisnik.korisnik_id)
-          "
-        >
-          <option
-            v-for="korisnik in korisnici"
-            :key="korisnik.korisnik_id"
-            :value="korisnik.korisnik_id"
-          >
-            {{ korisnik.ime }} {{ korisnik.prezime }}
-          </option>
-        </select>
-      </div>
+
+<label for="voditelj" class="label">Voditelj tima:</label>
+
+<select
+  v-model="voditelj"
+  class="input-field"
+  disabled
+>
+  <option
+    :value="prijavljenKorisnik.korisnik_id"
+  >
+    {{ prijavljenKorisnik.ime }} {{ prijavljenKorisnik.prezime }}
+  </option>
+</select>
+</div>
       <div
         v-if="
           !datum_zavrsetka &&
