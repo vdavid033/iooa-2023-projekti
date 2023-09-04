@@ -228,6 +228,7 @@ export default {
   },
   created() {
     // Ako se otvori stranica za azuriranje projekta postavi varijable
+    this.voditelj = this.prijavljenKorisnik.korisnik_id;
     if (this.$route.params.projekt_id) {
       this.editingProject = true;
       this.projectId = this.$route.params.projekt_id;
