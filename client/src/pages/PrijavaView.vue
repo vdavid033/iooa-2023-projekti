@@ -131,7 +131,7 @@ export default {
 .btn-prijava {
   display: block;
   margin: 10px auto;
-  margin-left: 45vw;
+  margin-left: 44vw;
   padding: 10px 20px;
   width: 200px;
   background-color: #f7d31c;
