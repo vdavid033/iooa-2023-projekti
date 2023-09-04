@@ -123,7 +123,7 @@ export default {
 
 .btn-group {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
   width: 100vw;
 }
@@ -158,7 +158,7 @@ export default {
   display: block;
   padding: 10px 20px;
   width: 150px;
-  margin-right: 100px;
+  margin-right: 20px;
   background-color: #ff6b6b;
   color: black;
   text-decoration: none;
