@@ -449,12 +449,12 @@ export default {
 }
 
 .clanovi-okvir button {
-  margin-left: 10px;
+  margin-left: 20px;
 }
 
 .btn-kreiraj-spremi {
   cursor: pointer;
-  margin: 0;
+  margin: 10;
 }
 .kreiraj-azuriraj-gumbi {
   display: flex;
@@ -463,7 +463,7 @@ export default {
 
 .input-field {
   width: 70%;
-  padding: 10px;
+  padding: 15px;
   border: 3px solid black;
   margin-left: 50px;
 }
