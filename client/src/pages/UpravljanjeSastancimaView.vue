@@ -133,7 +133,7 @@ export default {
   padding: 10px 20px;
   margin: 25px 0;
   width: 200px;
-  background-color: #f71cb2;
+  background-color: #fdfa42;
   color: black;
   text-align: center;
   text-decoration: none;
@@ -144,6 +144,6 @@ export default {
 }
 
 .btn-novi-projekt:hover {
-  background-color: #f567fa;
+  background-color: #828efc;
 }
 </style>
