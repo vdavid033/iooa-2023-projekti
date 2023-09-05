@@ -413,7 +413,7 @@ export default {
 
 .dodaj-clana {
   align-items: center;
-  width: 100%;
+  width: 76%;
   display: flex;
   justify-content: space-evenly;
 }
