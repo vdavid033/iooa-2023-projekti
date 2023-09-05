@@ -246,12 +246,6 @@ export default {
 
 .btn-kreiraj-spremi {
   cursor: pointer;
-  background-color: #828efc;
-  color: black;
-  text-align: center;
-  text-decoration: none;
-  border: 3px solid black;
-  border-radius: 20px;
 }
 
 .input-field {
