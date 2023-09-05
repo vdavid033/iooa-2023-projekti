@@ -157,8 +157,8 @@ export default {
 .btn-natrag {
   display: block;
   padding: 10px 20px;
-  width: 150px;
-  margin-right: 20px;
+  width: 100px;
+  margin-right: 10px;
   background-color: #828efc;
   color: black;
   text-decoration: none;
