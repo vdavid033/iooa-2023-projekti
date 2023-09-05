@@ -400,9 +400,9 @@ export default {
 
 <style scoped>
 .kreiraj-projekt {
-  margin-left: 250px;
+  margin-left: 300px;
   float: left;
-  width: 70vw;
+  width: 50vw;
 }
 
 .form-group {
@@ -425,7 +425,7 @@ export default {
   display: block;
   padding: 10px 20px;
   width: 150px;
-  background-color: white;
+  background-color: #828efc;
   color: black;
   text-decoration: none;
   border: 3px solid black;
@@ -456,7 +456,6 @@ export default {
   cursor: pointer;
   margin: 0;
 }
-
 .kreiraj-azuriraj-gumbi {
   display: flex;
   justify-content: space-evenly;
