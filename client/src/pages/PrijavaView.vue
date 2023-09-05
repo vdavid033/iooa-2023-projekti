@@ -159,7 +159,7 @@ export default {
   padding: 10px 20px;
   width: 150px;
   margin-right: 20px;
-  background-color: #ff6b6b;
+  background-color: #828efc;
   color: black;
   text-decoration: none;
   border: 3px solid black;
