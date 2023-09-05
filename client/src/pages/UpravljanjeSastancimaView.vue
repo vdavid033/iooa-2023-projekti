@@ -114,7 +114,7 @@ export default {
   display: block;
   padding: 10px 20px;
   width: 100px;
-  background-color: #f7d31c;
+  background-color: #828efc;
   color: black;
   text-align: center;
   text-decoration: none;
